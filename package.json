@@ -2,7 +2,7 @@
   "name": "booking-ui",
   "version": "0.0.0",
   "scripts": {
-    "start:server": "./server.js"
+    "start:server": "server.js"
   },
   "private": true,
   "dependencies": {

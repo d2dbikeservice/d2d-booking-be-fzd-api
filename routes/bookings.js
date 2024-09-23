@@ -5,7 +5,7 @@ const BookingController = require('../controllers/booking')
 const checkAuth = require('../middleware/check-auth')
 
 
-router.post("",checkAuth,BookingController.createBooking)
+router.post("",BookingController.createBooking)
 
 router.put("/:id",checkAuth,BookingController.editBooking)
 

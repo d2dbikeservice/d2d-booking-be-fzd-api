@@ -48,16 +48,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/bookings",bookingRoutes)
 app.use("/api/user",userRoutes)
 
-console.log('process.env.MONGO_URI', process.env.MONGO_URI);
-
 mongoose.connect(process.env.MONGO_URI)
 .catch(err=> {
   console.log(err);
-  
 })
 
 
 app.listen(process.env.PORT, () => {
-	console.log('Connected to port : ' + process.env.PORT);
 	console.log('Connected to port : ' + process.env.PORT);
 });

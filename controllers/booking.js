@@ -68,11 +68,28 @@ exports.editBooking = (req, res, next) => {
 }
 
 exports.getBookings = (req, res, next) => {
-  Booking.find().then(document => {
+  const {year, month} = req.query;
+
+  if(!year || !month){
+    return res.status(400).json({
+      message:"Select Year and Month"
+    })
+  }
+
+  const yearNumber = parseInt(year)
+  const monthNumber = parseInt(month) - 1;
+
+  const startDate = new Date(yearNumber, monthNumber, 1)
+  const endDate = new Date(yearNumber, monthNumber+1, 1)  
+
+  Booking.find({
+    serviceScheduledDate:{$gte:(startDate) , $lt:(endDate)}}).then(document => {
     res.status(200).json({
       message:"Bookings fetched successfully!",
       bookings:document.reverse()
     })
+    console.log(document);
+    
   })
   .catch(error => {
     res.status(500).json({
@@ -82,7 +99,21 @@ exports.getBookings = (req, res, next) => {
 }
 
 exports.getCompletedBookings =  (req, res, next) => {
-  Booking.find({status:"Service Completed"}).then(document => {
+  const {year, month} = req.query;
+
+  if(!year || !month){
+    return res.status(400).json({
+      message:"Select Year and Month"
+    })
+  }
+
+  const yearNumber = parseInt(year)
+  const monthNumber = parseInt(month) - 1;
+
+  const startDate = new Date(yearNumber, monthNumber, 1)
+  const endDate = new Date(yearNumber, monthNumber+1, 1)
+  Booking.find({status:"Service Completed", 
+    serviceScheduledDate:{$gte:(startDate) , $lt:(endDate)}}).then(document => {
     res.status(200).json({
       message:"Bookings fetched successfully!",
       bookings:document.reverse()

@@ -83,7 +83,14 @@ exports.getBookings = (req, res, next) => {
   const endDate = new Date(yearNumber, monthNumber+1, 1)  
 
   Booking.find({
-    serviceScheduledDate:{$gte:(startDate) , $lt:(endDate)},status:{$ne:"Service Completed"}})
+    serviceScheduledDate:{$gte:(startDate) , $lt:(endDate)},status:{ $ne: "Service Completed" }}).then(document => {
+    res.status(200).json({
+      message:"Bookings fetched successfully!",
+      bookings:document.reverse()
+    })
+    console.log(document);
+    
+  })
   .catch(error => {
     res.status(500).json({
       message:"Fetching bookings failed!"

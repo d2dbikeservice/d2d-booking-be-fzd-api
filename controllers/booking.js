@@ -53,9 +53,7 @@ exports.createBooking = (req, res, next) => {
     await transporter.sendMail(mailOptions);
     res.status(200).send({ message: 'Booked successfully & Email sent.' });
 } catch (error) {
-  console.log('req.body', error);
-
-          res.status(500).send({ message: 'Error sending email', error });
+    res.status(500).send({ message: 'Error sending email', error });
 }
     // res.status(201).json({
     //   message:"Booked successfully",

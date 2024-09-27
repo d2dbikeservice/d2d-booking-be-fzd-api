@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const bookingSchema = mongoose.Schema({
   customerName:{type:String },
   vehicleModel:{type:String },
+  userEmail:{type:String },
   address:{type:String},
   city:{type:String},
   contact:{type:String, required:true},

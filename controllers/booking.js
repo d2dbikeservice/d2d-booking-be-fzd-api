@@ -1,9 +1,22 @@
 const Booking = require('../models/booking')
+require('dotenv/config');
+const nodemailer = require('nodemailer')
+
+let transporter = nodemailer.createTransport({
+  host:"smtp.gmail.com",
+  port:587,
+  secure:false,
+  auth:{
+    user:process.env.USER_EMAIL,
+    pass:process.env.USER_PASS
+  }
+})
 
 exports.createBooking = (req, res, next) => {
   const booking = new Booking({
     customerName: req.body.customerName,
     vehicleModel: req.body.vehicleModel,
+    userEmail: req.body.userEmail,
     address: req.body.address,
     city: req.body.city,
     contact: req.body.contact,
@@ -19,20 +32,44 @@ exports.createBooking = (req, res, next) => {
     assignedMechanic:req.body.assignedMechanic,
     updatedBy:req.body.updatedBy,
   })
-  booking.save().then(createdBooking => {
-    res.status(201).json({
-      message:"Booked successfully",
-      booking:{
-        ...createdBooking,
-        id:createdBooking._id
-      }
-    })
+  let userData = req.body
+  
+  booking.save().then( async createdBooking => {
+    let mailOptions = {
+      from:process.env.USER_EMAIL,
+      to:req.body.userEmail,
+      subject:"Your Vehicle Service is Booked",
+      html:`<h3>Hi ${userData.customerName},</h3><br>
+        <h4>Your Vehicle ${userData.vehicleModel} doorstep service is booked successfully for Address: ${userData.address} with D2D Bike Service for Date: ${userData.serviceScheduledDate}.</h4><br>
+        <p>We will call you once mechanic is assiged for your Vehicle.</p><br>
+        <h4>For any query/complaint, please contact on 8587078424.</h4><br>
+        <p>Thank you for choosing D2D Bike Service.</p><br>
+        <p>D2D Bike Service</p>
+        <p>Beniganj Rampath, Ayodhya</p>
+        <p>8587078424</p>`
+  }
+
+  try {
+    await transporter.sendMail(mailOptions);
+    res.status(200).send({ message: 'Booked successfully & Email sent.' });
+} catch (error) {
+  console.log('req.body', error);
+
+          res.status(500).send({ message: 'Error sending email', error });
+}
+    // res.status(201).json({
+    //   message:"Booked successfully",
+    //   booking:{
+    //     ...createdBooking,
+    //     id:createdBooking._id
+    //   }
+    // })
   })
-  .catch(error => {
-    res.status(500).json({
-      message:'Booking is failed!'
-    })
-  })
+  // .catch(error => {
+  //   res.status(500).json({
+  //     message:'Booking is failed!'
+  //   })
+  // })
 }
 
 exports.editBooking = (req, res, next) => {
@@ -40,6 +77,7 @@ exports.editBooking = (req, res, next) => {
     _id:req.body.id,
     customerName: req.body.customerName,
     vehicleModel: req.body.vehicleModel,
+    userEmail: req.body.userEmail,
     address: req.body.address,
     city: req.body.city,
     contact: req.body.contact,
@@ -87,9 +125,7 @@ exports.getBookings = (req, res, next) => {
     res.status(200).json({
       message:"Bookings fetched successfully!",
       bookings:document.reverse()
-    })
-    console.log(document);
-    
+    })    
   })
   .catch(error => {
     res.status(500).json({
@@ -147,7 +183,6 @@ exports.getTodaysBookings = (req, res, next) => {
 
 exports.deleteBooking = (req, res, next) => {
   Booking.deleteOne({_id:req.params.id}).then((result) => {
-    console.log('result', result);
     res.status(200).json({
       message:"Booking deleted successfully"
     })
@@ -159,4 +194,6 @@ exports.deleteBooking = (req, res, next) => {
   })
 
 }
+
+
 

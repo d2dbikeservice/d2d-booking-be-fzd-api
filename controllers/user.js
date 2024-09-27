@@ -2,8 +2,20 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user')
+require('dotenv/config');
+const nodemailer = require('nodemailer')
 
-exports.createUser = (req, res, next) => {
+let transporter = nodemailer.createTransport({
+  host:"smtp.gmail.com",
+  port:587,
+  secure:false,
+  auth:{
+    user:process.env.USER_EMAIL,
+    pass:process.env.USER_PASS
+  }
+})
+
+exports.createUser =  (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
   .then(hash => {
     const user = new User({
@@ -12,20 +24,52 @@ exports.createUser = (req, res, next) => {
       userRole:req.body.userRole,
       password:hash
     })
-    user
-    .save()
-    .then(result => {
-      res.status(201).json({
-        message:"User Created Successfully",
-        data:result
-      })
+    user.save()
+    .then(async result => {
+      let mailOptions = {
+        from:process.env.USER_EMAIL,
+        to:req.body.userEmail,
+        subject:"Welcome to D2D Bike Service",
+        html:`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Email Template</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+          }
+          p {
+            margin: 2px;
+          }
+        </style>
+      </head>
+    <body>
+    <h3>Hi ${user.userName}</h3><br>
+          <h4>You are successfully Registered with D2D Bike Service as ${user.userRole}.</h4>
+          <p>Thank you joining us.</p><br>
+          <p>D2D Bike Service</p>
+          <p>Beniganj Rampath, Ayodhya</p>
+          <p>8587078424</p>
+    </body>
+    </html>`
+    }
+
+      try {
+        await transporter.sendMail(mailOptions);
+        res.status(200).send({ message: 'User Registered & Email sent successfully' });
+    } catch (error) {
+              res.status(500).send({ message: 'Error sending email', error });
+    }
+
     })
     .catch(err => {
       res.status(500).json({
         message:"Email is Already Registered."
       })
     })
-
   })
 }
 
@@ -70,3 +114,21 @@ exports.userLogin = (req, res, next) => {
     })
   })
 }
+
+async function sendMail(user, callback){
+  console.log('user >', user);
+  
+  // let transporter = nodemailer.createTransport({
+  //   host:"smtp.gmail.com",
+  //   port:587,
+  //   secure:false,
+  //   auth:{
+  //     user:process.env.USER_EMAIL,
+  //     pass:process.env.USER_PASS
+  //   }
+  // })
+
+
+
+
+} 

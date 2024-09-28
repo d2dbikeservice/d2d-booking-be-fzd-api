@@ -15,6 +15,8 @@
     "mongoose": "^8.5.2",
     "mongoose-unique-validator": "^5.0.1",
     "nodemailer": "^6.9.15",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "twilio": "^5.3.2",
+    "wbm": "^1.1.16"
   }
 }

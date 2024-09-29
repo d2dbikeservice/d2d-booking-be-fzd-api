@@ -6,9 +6,9 @@ router.post("", ExpenseController.createExpense)
 
 router.get("", ExpenseController.getExpenses)
 
-// router.put("/:id", UserController.userLogin)
+router.put("/:id",ExpenseController.editExpense)
 
-// router.delete("/:id", UserController.userLogin)
+router.delete("/:id", ExpenseController.deleteExpense)
 
 module.exports = router
 

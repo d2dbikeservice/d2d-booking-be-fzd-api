@@ -51,3 +51,41 @@ exports.getExpenses = (req, res, next) => {
       })
     })
   }
+
+  exports.editExpense = (req, res, next) => {
+    const expense = new Expense({
+      _id:req.params.id,
+      description: req.body.description,
+      amount: req.body.amount,
+      updatedBy: req.body.updatedBy,
+      date:req.body.date
+    })
+    console.log(req.body);
+    
+    Expense.updateOne({ _id:req.params.id}, expense).then(result => {
+      res.status(200).json({
+        message:"Expense updated successfully"
+      })
+    })
+    .catch(error => {
+      res.status(500).json({
+        message:"Expense Updation failed!"
+      })
+    })
+  }
+
+  exports.deleteExpense = (req, res, next) => {
+    Expense.deleteOne({_id:req.params.id}).then((result) => {
+      res.status(200).json({
+        message:"Expense deleted successfully"
+      })
+    })
+    .catch(error => {
+        console.log(error);
+        
+      res.status(500).json({
+        message:error
+      })
+    })
+  
+  }

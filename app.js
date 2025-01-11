@@ -7,6 +7,7 @@ require('dotenv/config');
 const bookingRoutes = require('./routes/bookings');
 const userRoutes = require('./routes/user');
 const expenseRoutes = require('./routes/expense');
+const enquiryRoutes = require('./routes/enquiry');
 
 const app = express()
 // mongoose.connect('mongodb+srv://d2dbikeservice:'+process.env.MONGO_ATLAS_PW+'@cluster0.4x7tz.mongodb.net/?retryWrites=true&w=majority&appName=dlocal')
@@ -49,6 +50,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/bookings",bookingRoutes)
 app.use("/api/user",userRoutes)
 app.use("/api/expenses",expenseRoutes)
+app.use("/api/enquiries",enquiryRoutes)
 
 mongoose.connect(process.env.MONGO_URI)
 .catch(err=> {

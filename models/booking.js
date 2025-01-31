@@ -18,6 +18,7 @@ const bookingSchema = mongoose.Schema({
   comment:{type:String},
   assignedMechanic:{type:String},
   updatedBy:{type:String},
+  addedBy:{type:String},
 })
 
 // bookings/ayodhya/2024/august

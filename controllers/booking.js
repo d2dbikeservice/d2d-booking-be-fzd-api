@@ -35,6 +35,7 @@ exports.createBooking = (req, res, next) => {
     comment:req.body.comment,
     assignedMechanic:req.body.assignedMechanic,
     updatedBy:req.body.updatedBy,
+    addedBy:req.body.addedBy,
   })
   let userData = req.body
   

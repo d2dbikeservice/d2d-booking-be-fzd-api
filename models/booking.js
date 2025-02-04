@@ -19,6 +19,14 @@ const bookingSchema = mongoose.Schema({
   assignedMechanic:{type:String},
   updatedBy:{type:String},
   addedBy:{type:String},
+  customerBill: [
+    {
+      itemName: { type: String, required: true },
+      quantity: { type: Number, required: true },
+      unitPrice: { type: Number, required: true },
+      totalPrice: { type: Number, required: true },
+    }
+  ]
 })
 
 // bookings/ayodhya/2024/august

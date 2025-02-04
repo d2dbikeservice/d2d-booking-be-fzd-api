@@ -8,6 +8,7 @@ const checkAuth = require('../middleware/check-auth')
 router.post("",BookingController.createBooking)
 
 router.put("/:id",checkAuth,BookingController.editBooking)
+router.put("/:id/bill",checkAuth,BookingController.updateBill)
 
 // router.put("/:id", checkAuth,(req, res, next) => {
 //   const booking = new Booking({

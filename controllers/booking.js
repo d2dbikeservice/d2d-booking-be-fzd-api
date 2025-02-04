@@ -36,6 +36,8 @@ exports.createBooking = (req, res, next) => {
     assignedMechanic:req.body.assignedMechanic,
     updatedBy:req.body.updatedBy,
     addedBy:req.body.addedBy,
+    customerBill:req.body.customerBill,
+
   })
   let userData = req.body
   
@@ -136,6 +138,25 @@ exports.editBooking = (req, res, next) => {
   .catch(error => {
     res.status(500).json({
       message:"Booking Updation failed!"
+    })
+  })
+}
+
+exports.updateBill = (req, res, next) => {
+  const booking = new Booking({
+    _id:req.body.id,
+    customerBill: req.body.customerBill,
+    totalBillAmount: req.body.totalBillAmount,
+    updatedBy:req.body.updatedBy,
+  })
+  Booking.updateOne({ _id:req.params.id}, booking).then(result => {
+    res.status(200).json({
+      message:"Bill updated successfully"
+    })
+  })
+  .catch(error => {
+    res.status(500).json({
+      message:"Bill Updation failed!"
     })
   })
 }

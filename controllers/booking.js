@@ -129,6 +129,8 @@ exports.editBooking = (req, res, next) => {
     comment:req.body.comment,
     assignedMechanic:req.body.assignedMechanic,
     updatedBy:req.body.updatedBy,
+    customerBill: req.body.customerBill
+    
   })
   Booking.updateOne({ _id:req.params.id}, booking).then(result => {
     res.status(200).json({

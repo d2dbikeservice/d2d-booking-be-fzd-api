@@ -28,6 +28,7 @@ router.put("/:id/bill",checkAuth,BookingController.updateBill)
 // })
 
 router.get("", checkAuth,  BookingController.getBookings)
+router.get("/allbookings", checkAuth,  BookingController.getAllBookings)
 router.get("/completedService", checkAuth, BookingController.getCompletedBookings )
 router.get("/todaysService", checkAuth,  BookingController.getTodaysBookings)
 

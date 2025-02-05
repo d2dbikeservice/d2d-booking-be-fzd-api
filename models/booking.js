@@ -23,6 +23,7 @@ const bookingSchema = mongoose.Schema({
     {
       itemName: { type: String, required: true },
       quantity: { type: Number, required: true },
+      d2dPrice: { type: Number, required: true },
       unitPrice: { type: Number, required: true },
       totalPrice: { type: Number, required: true },
     }

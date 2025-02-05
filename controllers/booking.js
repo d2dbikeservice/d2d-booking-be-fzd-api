@@ -163,6 +163,22 @@ exports.updateBill = (req, res, next) => {
   })
 }
 
+exports.getAllBookings = (req, res, next) => {
+ 
+
+  Booking.find().then(document => {
+    res.status(200).json({
+      message:"All Bookings fetched successfully!",
+      bookings:document.reverse()
+    })    
+  })
+  .catch(error => {
+    res.status(500).json({
+      message:"Fetching all bookings failed!"
+    })
+  })
+
+}
 exports.getBookings = (req, res, next) => {
   const {year, month} = req.query;
 

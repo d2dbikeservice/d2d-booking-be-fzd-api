@@ -18,6 +18,7 @@ const bookingSchema = mongoose.Schema({
   comment:{type:String},
   assignedMechanic:{type:String},
   updatedBy:{type:String},
+  vehicleNumber:{type:String},
   addedBy:{type:String},
   customerBill: [
     {

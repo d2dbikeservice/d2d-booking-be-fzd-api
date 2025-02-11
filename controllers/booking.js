@@ -37,7 +37,7 @@ exports.createBooking = (req, res, next) => {
     updatedBy:req.body.updatedBy,
     addedBy:req.body.addedBy,
     customerBill:req.body.customerBill,
-
+    vehicleNumber:req.body.vehicleNumber,
   })
   let userData = req.body
   
@@ -129,7 +129,8 @@ exports.editBooking = (req, res, next) => {
     comment:req.body.comment,
     assignedMechanic:req.body.assignedMechanic,
     updatedBy:req.body.updatedBy,
-    customerBill: req.body.customerBill
+    customerBill: req.body.customerBill,
+    vehicleNumber:req.body.vehicleNumber
     
   })
   Booking.updateOne({ _id:req.params.id}, booking).then(result => {
@@ -149,6 +150,7 @@ exports.updateBill = (req, res, next) => {
     _id:req.body.id,
     customerBill: req.body.customerBill,
     totalBillAmount: req.body.totalBillAmount,
+    vehicleNumber:req.body.vehicleNumber,
     updatedBy:req.body.updatedBy,
   })
   Booking.updateOne({ _id:req.params.id}, booking).then(result => {
